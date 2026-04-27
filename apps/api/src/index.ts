@@ -1,12 +1,11 @@
-import express from 'express';
-import type { Request, Response } from 'express';
 
-const app = express();
+import pool from "./db/index.js";
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("OK");
-});
-
-app.listen(3000, "0.0.0.0", () => {
-  console.log("Server running on port 3000");
-});
+(async () => {
+  try {
+    const res = await pool.query("SELECT NOW()");
+    console.log("DB OK:", res.rows[0]);
+  } catch (err) {
+    console.error("DB FAIL:", err);
+  }
+})();
